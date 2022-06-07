@@ -39,27 +39,6 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
             style: TextStyle(color: Colors.grey),
           ),
           actions: [
-            if (Responsive.isDesktop(context))
-              const Center(
-                child: Text(
-                  'Web mode',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            if (Responsive.isTablet(context))
-              const Center(
-                child: Text(
-                  'Tablet mode',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            if (Responsive.isMobile(context))
-              const Center(
-                child: Text(
-                  'Mobile mode',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
             !Responsive.isDesktop(context)
                 ? NeumorphicButton(
                     style: NeumorphicStyle(
@@ -118,9 +97,7 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
               );
             }
             if (Responsive.isTablet(context)) {
-              return const Expanded(
-                child: DrugPanel(),
-              );
+              return const DrugPanel();
             }
             if (Responsive.isMobile(context)) {}
             return const Expanded(

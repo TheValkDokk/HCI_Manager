@@ -36,26 +36,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }));
       }
     });
-    return SessionTimeoutManager(
-      sessionConfig: sessionConfig,
-      child: Responsive(
-        MobileView(AnimatedSwitcher(
-          transitionBuilder: (child, animation) => FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          duration: Duration(milliseconds: duration),
-          child: getScreen(),
-        )),
-        TabletView(AnimatedSwitcher(
-          transitionBuilder: (child, animation) => FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          duration: Duration(milliseconds: duration),
-          child: getScreen(),
-        )),
-        WebView(AnimatedSwitcher(
+    return Responsive(
+      MobileView(AnimatedSwitcher(
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+        duration: Duration(milliseconds: duration),
+        child: getScreen(),
+      )),
+      TabletView(AnimatedSwitcher(
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+        duration: Duration(milliseconds: duration),
+        child: getScreen(),
+      )),
+      SessionTimeoutManager(
+        sessionConfig: sessionConfig,
+        child: WebView(AnimatedSwitcher(
           transitionBuilder: (child, animation) => FadeTransition(
             opacity: animation,
             child: child,
