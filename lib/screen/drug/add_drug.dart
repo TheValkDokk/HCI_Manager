@@ -1,18 +1,21 @@
 import 'dart:math';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hci_manager/screen/drug/drug_view.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../../addons/breakpoint.dart';
 import '../../models/drug.dart';
 import '../../provider/global_method.dart';
 import '../../responsive_layout.dart';
+import 'drug_panel.dart';
 
 final isOpenAddDrugProvider = StateProvider((_) => true);
 
 class AddDrug extends ConsumerStatefulWidget {
-  const AddDrug({Key? key}) : super(key: key);
+  const AddDrug();
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddDrugState();
@@ -29,14 +32,18 @@ class _AddDrugState extends ConsumerState<AddDrug>
   final nameField = TextEditingController();
   final imgField = TextEditingController();
   final ingreField = TextEditingController();
-  final pricereField = TextEditingController();
+  final priceField = TextEditingController();
   final usesField = TextEditingController();
   final containerField = TextEditingController();
   var brought = 0;
   var rating = 0.0;
   String type = 'A1';
   String url = '';
-  String unit = 'Chai';
+  String unit = 'Bottle';
+  bool isAdd = true;
+  var loadedDrug;
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction;
 
   Widget blankWidget() => Padding(
         key: const Key('blankPane'),
@@ -84,12 +91,35 @@ class _AddDrugState extends ConsumerState<AddDrug>
                     ))
                 : const BackButton(color: Colors.grey),
             actions: [
-              IconButton(
+              if (isAdd)
+                IconButton(
                   onPressed: () => getDrugObj(),
                   icon: const Icon(
                     Icons.send,
                     color: Colors.blue,
-                  ))
+                  ),
+                ),
+              if (!isAdd)
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        resetWid();
+                      },
+                      icon: const Icon(
+                        Icons.clear,
+                        color: Colors.red,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => getDrugObj(),
+                      icon: const Icon(
+                        Icons.published_with_changes_sharp,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                )
             ],
           ),
           backgroundColor: Colors.white,
@@ -100,6 +130,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
               child: Column(
                 children: [
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         formFieldInput(
@@ -127,8 +158,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
                                             intensity: 5,
                                           ),
                                           child: TextFormField(
-                                            autovalidateMode: AutovalidateMode
-                                                .onUserInteraction,
+                                            autovalidateMode: autovalidateMode,
                                             controller: imgField,
                                             validator: (v) {
                                               if (v == null ||
@@ -153,7 +183,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
                                             ),
                                             cursorColor: Colors.grey,
                                             style: const TextStyle(
-                                                color: Colors.grey),
+                                                color: Colors.black54),
                                           ),
                                         ),
                                       ),
@@ -185,8 +215,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            if (!Responsive.isDesktop(context))
+                            if (Responsive.isTablet(context))
                               SizedBox(
                                 height: 180,
                                 width: 180,
@@ -205,7 +234,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
                               ),
                           ],
                         ),
-                        if (Responsive.isDesktop(context))
+                        if (!Responsive.isTablet(context))
                           SizedBox(
                             height: 180,
                             width: 180,
@@ -232,9 +261,8 @@ class _AddDrugState extends ConsumerState<AddDrug>
                           ),
                           child: TextFormField(
                             keyboardType: TextInputType.number,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: pricereField,
+                            autovalidateMode: autovalidateMode,
+                            controller: priceField,
                             validator: (v) {
                               if (v == null || v.isEmpty || !isNumeric(v)) {
                                 return 'Please fill the Field';
@@ -245,12 +273,12 @@ class _AddDrugState extends ConsumerState<AddDrug>
                               label: const Text('Input Price'),
                               labelStyle: const TextStyle(color: Colors.grey),
                               suffixIcon: IconButton(
-                                onPressed: pricereField.clear,
+                                onPressed: priceField.clear,
                                 icon: const Icon(Icons.clear),
                               ),
                             ),
                             cursorColor: Colors.grey,
-                            style: const TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.black54),
                           ),
                         ),
                         formFieldInput('Input Ingredient', ingreField,
@@ -269,17 +297,27 @@ class _AddDrugState extends ConsumerState<AddDrug>
                     child: NeumorphicButton(
                       style: const NeumorphicStyle(
                           color: Colors.white, depth: 5, intensity: 0.8),
-                      onPressed: () => getDrugObj(),
+                      onPressed: () {
+                        if (isAdd) {
+                          getDrugObj();
+                        } else {
+                          getDrugObj();
+                        }
+                      },
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(Icons.send, color: Colors.blue),
-                            SizedBox(width: 10),
+                          children: [
+                            Icon(
+                                isAdd
+                                    ? Icons.send
+                                    : Icons.published_with_changes_sharp,
+                                color: Colors.blue),
+                            const SizedBox(width: 10),
                             Text(
-                              'Send',
-                              style:
-                                  TextStyle(color: Colors.blue, fontSize: 18),
+                              isAdd ? 'Send' : 'Update',
+                              style: const TextStyle(
+                                  color: Colors.blue, fontSize: 18),
                             )
                           ],
                         ),
@@ -293,9 +331,39 @@ class _AddDrugState extends ConsumerState<AddDrug>
         ),
       );
 
+  void resetWid() {
+    isAdd = true;
+    ref.refresh(drugLoadProvider.notifier);
+    if (!Responsive.isDesktop(context)) {
+      ref.read(DrawerKeyProvider.notifier).state.currentState!.closeEndDrawer();
+    }
+  }
+
+  void loadDummy() {
+    final tempDrug = ref.watch(drugLoadProvider);
+    if (tempDrug == loadedDrug) {
+      return;
+    } else {
+      loadedDrug = tempDrug;
+      idField.text = loadedDrug.id;
+      titleField.text = loadedDrug.title;
+      nameField.text = loadedDrug.fullName;
+      imgField.text = loadedDrug.imgUrl;
+      ingreField.text = loadedDrug.ingredients;
+      priceField.text = loadedDrug.price.toString();
+      usesField.text = loadedDrug.uses;
+      containerField.text = loadedDrug.container;
+      type = loadedDrug.type;
+      unit = loadedDrug.unit;
+      url = loadedDrug.imgUrl;
+      if (loadedDrug.id != '') isAdd = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool currentShow = ref.watch(isOpenAddDrugProvider);
+    loadDummy();
     return Neumorphic(
       style: NeumorphicStyle(
         depth: currentShow ? 5 : 0,
@@ -317,32 +385,80 @@ class _AddDrugState extends ConsumerState<AddDrug>
   }
 
   void getDrugObj() {
-    String title = titleField.text;
-    String name = nameField.text;
-    String id = idField.text;
-    String img = imgField.text;
-    String ingredients = ingreField.text;
-    String uses = usesField.text;
-    double price = double.parse(pricereField.text);
-    String container = containerField.text;
-    rating = doubleInRange(rng, 0, 5);
-    brought = next(5, 200);
-    Drug drug = Drug(
-      title: title,
-      fullName: name,
-      id: id,
-      unit: unit,
-      price: price,
-      imgUrl: img,
-      type: type,
-      ingredients: ingredients,
-      uses: uses,
-      rating: rating,
-      brought: brought,
-      container: container,
-    );
-
-    submitToDB(drug);
+    try {
+      String title = titleField.text;
+      String name = nameField.text;
+      String id = idField.text;
+      String img = imgField.text;
+      String ingredients = ingreField.text;
+      String uses = usesField.text;
+      double price = double.parse(priceField.text);
+      String container = containerField.text;
+      rating = doubleInRange(rng, 0, 5);
+      brought = next(5, 200);
+      if (title.isEmpty ||
+          name.isEmpty ||
+          id.isEmpty ||
+          img.isEmpty ||
+          ingredients.isEmpty ||
+          uses.isEmpty ||
+          container.isEmpty ||
+          price == 0 ||
+          type == 'null' ||
+          unit == 'null') {
+        throw Error();
+      }
+      Drug drug = Drug(
+        title: title,
+        fullName: name,
+        id: id,
+        unit: unit,
+        price: price,
+        imgUrl: img,
+        type: type,
+        ingredients: ingredients,
+        uses: uses,
+        rating: rating,
+        brought: brought,
+        container: container,
+      );
+      String msg = '';
+      String tit = '';
+      if (isAdd) {
+        submitToDB(drug);
+        tit = 'New Drug Added';
+        msg = '$unit of $title has been succesful added';
+      } else {
+        updateToDB(drug);
+        tit = 'Drug Updated';
+        msg = '$unit of $title has been succesful updated';
+      }
+      var snackBar = SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: tit,
+          message: msg,
+          contentType: ContentType.success,
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      resetWid();
+      _formKey.currentState!.reset();
+    } catch (e) {
+      var snackBar = SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'On Snap!',
+          message: 'Invalid value inputed, Please check it again',
+          contentType: ContentType.failure,
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   Widget selectType() {
@@ -352,7 +468,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (!Responsive.isDesktop(context))
+          if (Responsive.isTablet(context))
             const Text(
               'Select Type:',
               style: TextStyle(color: Colors.grey, fontSize: 18),
@@ -371,16 +487,16 @@ class _AddDrugState extends ConsumerState<AddDrug>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (!Responsive.isDesktop(context))
+          if (Responsive.isTablet(context))
             const Text(
               'Select Unit:',
               style: TextStyle(color: Colors.grey, fontSize: 18),
             ),
-          neumorRadio('Chai', 'Chai', unit),
-          neumorRadio('Hộp', 'Hộp', unit),
-          neumorRadio('Bột', 'Bột', unit),
+          neumorRadio('Bottle', 'Bottle', unit),
+          neumorRadio('Tablet', 'Tablet', unit),
+          neumorRadio('Powder ', 'Powder ', unit),
           neumorRadio('Tube', 'Tube', unit),
-          neumorRadio('Cái', 'Cái', unit),
+          neumorRadio('Item', 'Item', unit),
         ],
       ),
     );
@@ -395,8 +511,10 @@ class _AddDrugState extends ConsumerState<AddDrug>
       onChanged: (value) {
         setState(() {
           if (grVal == 'type') {
+            ref.read(drugLoadProvider.notifier).state.type = value.toString();
             type = value.toString();
           } else {
+            ref.read(drugLoadProvider.notifier).state.unit = value.toString();
             unit = value.toString();
           }
         });
@@ -427,7 +545,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
         intensity: 5,
       ),
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: autovalidateMode,
         controller: controller,
         validator: (v) {
           if (v == null || v.isEmpty) {
@@ -444,7 +562,7 @@ class _AddDrugState extends ConsumerState<AddDrug>
           ),
         ),
         cursorColor: Colors.grey,
-        style: const TextStyle(color: Colors.grey),
+        style: const TextStyle(color: Colors.black54),
       ),
     );
   }

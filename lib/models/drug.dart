@@ -6,7 +6,7 @@ class Drug {
   String fullName;
   String id;
   String unit;
-  double price;
+  num price;
   String imgUrl;
   String type;
   String ingredients;
@@ -82,7 +82,7 @@ class Drug {
       fullName: map['fullName'] as String,
       id: map['id'] as String,
       unit: map['unit'] as String,
-      price: map['price'] as double,
+      price: map['price'] as num,
       imgUrl: map['imgUrl'] as String,
       type: map['type'] as String,
       ingredients: map['ingredients'] as String,
@@ -138,3 +138,17 @@ class Drug {
         container.hashCode;
   }
 }
+
+final dummyDrug = Drug(
+    title: '',
+    fullName: '',
+    id: '',
+    unit: 'Bottle',
+    price: 0,
+    imgUrl: '',
+    type: 'A1',
+    ingredients: '',
+    uses: '',
+    rating: 0,
+    brought: 0,
+    container: '');

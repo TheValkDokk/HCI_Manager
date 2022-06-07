@@ -1,5 +1,6 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hci_manager/models/drug.dart';
 
 import '../../components/side_menu.dart';
 import '../../responsive_layout.dart';
@@ -19,12 +20,16 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
   @override
   Widget build(BuildContext context) {
     final drawerKey = ref.watch(DrawerKeyProvider);
+    double size = MediaQuery.of(context).size.width;
+    double sizePhone = size * 0.7;
+    double sizeTablet = size * 0.3;
+    final dummy = dummyDrug;
     return NeumorphicApp(
       color: Colors.white,
       home: Scaffold(
         drawer: Responsive.isDesktop(context)
             ? null
-            : SideMenu(MediaQuery.of(context).size.width * 0.3),
+            : SideMenu(Responsive.isTablet(context) ? sizeTablet : sizePhone),
         key: drawerKey,
         backgroundColor: Colors.white,
         endDrawer: Responsive.isDesktop(context) ? null : const AddDrug(),
@@ -55,8 +60,9 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
                 : Container(),
           ],
           centerTitle: true,
-          leading: Responsive.isTablet(context)
-              ? NeumorphicButton(
+          leading: Responsive.isDesktop(context)
+              ? null
+              : NeumorphicButton(
                   style: NeumorphicStyle(
                     shape: NeumorphicShape.concave,
                     boxShape: NeumorphicBoxShape.roundRect(
@@ -72,8 +78,7 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
                       size: 30,
                     ),
                   ),
-                )
-              : null,
+                ),
         ),
         body: LayoutBuilder(
           builder: (context, dimen) {
@@ -92,12 +97,14 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
               );
             }
             if (Responsive.isTablet(context)) {
-              return const Center(
-                child: Text('Drug'),
+              return const Expanded(
+                child: DrugPanel(),
               );
             }
             if (Responsive.isMobile(context)) {}
-            return Container();
+            return const Expanded(
+              child: DrugPanel(),
+            );
           },
         ),
       ),

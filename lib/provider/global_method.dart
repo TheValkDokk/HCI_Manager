@@ -14,3 +14,19 @@ Future submitToDB(Drug drug) async {
   final db = FirebaseFirestore.instance;
   db.collection('drugs').add(drug.toMap());
 }
+
+Future updateToDB(Drug drug) async {
+  final update = drug.toMap();
+  final db = FirebaseFirestore.instance
+      .collection('drugs')
+      .where('id', isEqualTo: drug.id)
+      .get()
+      .then(
+    (value) {
+      FirebaseFirestore.instance
+          .collection('drugs')
+          .doc(value.docs.first.id)
+          .set(drug.toMap());
+    },
+  );
+}

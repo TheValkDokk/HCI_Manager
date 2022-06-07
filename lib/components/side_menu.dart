@@ -37,6 +37,7 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final u = FirebaseAuth.instance.currentUser!;
+    final imgSize = MediaQuery.of(context).size.width * 0.5;
     return Material(
       child: Container(
         width: widthSize == 0 ? double.infinity : widthSize,
@@ -45,7 +46,7 @@ class SideMenu extends StatelessWidget {
         color: kBgLightColor,
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Consumer(
               builder: (context, ref, child) => Column(
                 children: [
@@ -58,8 +59,12 @@ class SideMenu extends StatelessWidget {
                           borderRadius: BorderRadius.circular(80.0),
                           child: Image.network(
                             u.photoURL.toString(),
-                            width: size.width * 0.2,
-                            height: size.width * 0.2,
+                            width: Responsive.isMobile(context)
+                                ? imgSize
+                                : MediaQuery.of(context).size.width * 0.2,
+                            height: Responsive.isMobile(context)
+                                ? imgSize
+                                : MediaQuery.of(context).size.width * 0.2,
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -71,22 +76,35 @@ class SideMenu extends StatelessWidget {
                           children: [
                             if (!Responsive.isDesktop(context))
                               const CloseButton(),
-                            Text(
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              u.displayName.toString(),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue,
-                                letterSpacing: 1,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
+                            if (Responsive.isDesktop(context))
+                              Text(
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                u.displayName.toString(),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue,
+                                  letterSpacing: 1,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
                           ],
                         ),
                       )
                     ],
                   ),
+                  if (!Responsive.isDesktop(context))
+                    Text(
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      u.displayName.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   const SizedBox(height: kDefaultPadding),
                   NeumorphicButton(
                     style: NeumorphicStyle(
@@ -96,6 +114,8 @@ class SideMenu extends StatelessWidget {
                         color: const Color(0xFF0087F9)),
                     onPressed: () {
                       if (Responsive.isDesktop(context)) {
+                        ref.read(ScreenProvider.notifier).state =
+                            MenuItems.drug;
                         ref.read(isOpenAddDrugProvider.notifier).state = true;
                       } else {
                         ref
@@ -144,7 +164,8 @@ class SideMenu extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: kDefaultPadding * 2),
+                  // const SizedBox(height: kDefaultPadding * 2),
+                  const Spacer(),
                   SideMenuItem(
                     press: () => ref.read(ScreenProvider.notifier).state =
                         MenuItems.drug,
@@ -174,10 +195,22 @@ class SideMenu extends StatelessWidget {
                   const Spacer(),
                   SideMenuItem(
                     press: () {
-                      Navigator.push(context,
-                          ConcentricPageRoute(builder: (ctx) {
-                        return const LockScreen();
-                      }));
+                      if (Responsive.isDesktop(context)) {
+                        Navigator.push(context,
+                            ConcentricPageRoute(builder: (ctx) {
+                          return const LockScreen();
+                        }));
+                      } else {
+                        ref
+                            .read(DrawerKeyProvider.notifier)
+                            .state
+                            .currentState!
+                            .closeDrawer();
+                        Navigator.push(context,
+                            ConcentricPageRoute(builder: (ctx) {
+                          return const LockScreen();
+                        }));
+                      }
                     },
                     title: "Lock",
                     icon: Icons.lock,
