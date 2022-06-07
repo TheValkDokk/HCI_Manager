@@ -56,6 +56,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: getScreen(),
         )),
         WebView(AnimatedSwitcher(
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
           duration: Duration(milliseconds: duration),
           child: getScreen(),
         )),

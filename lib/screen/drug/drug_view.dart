@@ -35,10 +35,31 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
         endDrawer: Responsive.isDesktop(context) ? null : const AddDrug(),
         appBar: NeumorphicAppBar(
           title: const Text(
-            'Drug',
+            'Drug Panel',
             style: TextStyle(color: Colors.grey),
           ),
           actions: [
+            if (Responsive.isDesktop(context))
+              const Center(
+                child: Text(
+                  'Web mode',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            if (Responsive.isTablet(context))
+              const Center(
+                child: Text(
+                  'Tablet mode',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            if (Responsive.isMobile(context))
+              const Center(
+                child: Text(
+                  'Mobile mode',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
             !Responsive.isDesktop(context)
                 ? NeumorphicButton(
                     style: NeumorphicStyle(

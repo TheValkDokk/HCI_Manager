@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hci_manager/responsive_layout.dart';
 import 'package:hci_manager/screen/drug/add_drug.dart';
 import 'package:hci_manager/screen/order/drug_tile.dart';
@@ -40,16 +41,26 @@ class DrugPanel extends StatelessWidget {
                         : 2
                     : 3;
                 double childAspect = isDrawerOpen ? 4 : 4;
+                int count = 0;
                 return GridView(
                   controller: ScrollController(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxi,
                     childAspectRatio: childAspect,
                   ),
-                  children: snapshot.data!.docs
-                      .map((e) => DrugTile(
-                          Drug.fromMap(e.data() as Map<String, dynamic>)))
-                      .toList(),
+                  children: snapshot.data!.docs.map((e) {
+                    return AnimationConfiguration.staggeredList(
+                      position: count++,
+                      duration: const Duration(milliseconds: 500),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: DrugTile(
+                              Drug.fromMap(e.data() as Map<String, dynamic>)),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 );
               },
             );
