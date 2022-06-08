@@ -14,11 +14,14 @@ class _OrderViewScreenState extends State<OrderViewScreen> {
   final key = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.width;
+    double sizePhone = size * 0.7;
+    double sizeTablet = size * 0.3;
     return NeumorphicApp(
       home: Scaffold(
         drawer: Responsive.isDesktop(context)
             ? null
-            : SideMenu(MediaQuery.of(context).size.width * 0.3),
+            : SideMenu(Responsive.isTablet(context) ? sizeTablet : sizePhone),
         key: key,
         backgroundColor: Colors.white,
         appBar: NeumorphicAppBar(

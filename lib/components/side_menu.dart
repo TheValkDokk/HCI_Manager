@@ -10,7 +10,6 @@ import 'package:hci_manager/screen/lockscreen/lockscreen.dart';
 import '../addons/breakpoint.dart';
 import '../provider/general_provider.dart';
 import '../provider/global_method.dart';
-import '../provider/icon_provider.dart';
 import '../addons/responsive_layout.dart';
 import '../screen/drug/components/add_drug.dart';
 import 'side_menu_item.dart';
@@ -22,12 +21,14 @@ class MenuItemDra {
 }
 
 class MenuItems {
-  static const drug = MenuItemDra('Drugs', Icons.home);
-  static const orders = MenuItemDra('Orders', Icons.shopping_bag);
+  static const drug = MenuItemDra('Drugs', FontAwesomeIcons.capsules);
+  static const orders = MenuItemDra('Orders', FontAwesomeIcons.bagShopping);
+  static const transfer =
+      MenuItemDra('Transfer', FontAwesomeIcons.arrowRightArrowLeft);
   static const prescrip =
-      MenuItemDra('My Prescription', MyFlutterApp.prescription_bottle);
+      MenuItemDra('Prescription', FontAwesomeIcons.prescriptionBottle);
 
-  static const all = <MenuItemDra>[drug, orders, prescrip];
+  static const all = <MenuItemDra>[drug, orders, prescrip, transfer];
 }
 
 class SideMenu extends StatelessWidget {
@@ -132,38 +133,39 @@ class SideMenu extends StatelessWidget {
         const SizedBox(height: kDefaultPadding),
         addSearchBtnGroup(context, ref),
         if (!Responsive.isTablet(context)) const Spacer(),
-        SideMenuItem(
-          press: () => ref.read(ScreenProvider.notifier).state = MenuItems.drug,
-          title: "Drugs",
-          icon: FontAwesomeIcons.capsules,
-          isActive: ref.watch(ScreenProvider) == MenuItems.drug,
-          itemCount: 3,
-        ),
-        SideMenuItem(
-          press: () {
-            ref.read(ScreenProvider.notifier).state = MenuItems.orders;
-          },
-          title: "Orders",
-          icon: FontAwesomeIcons.bagShopping,
-          isActive: ref.watch(ScreenProvider) == MenuItems.orders,
-          itemCount: 0,
-        ),
-        SideMenuItem(
-          press: () =>
-              ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
-          title: "Prescriptions",
-          icon: FontAwesomeIcons.prescriptionBottle,
-          isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
-          itemCount: 0,
-        ),
-        SideMenuItem(
-          press: () =>
-              ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
-          title: "Transfer Drug",
-          icon: FontAwesomeIcons.arrowRightArrowLeft,
-          isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
-          itemCount: 0,
-        ),
+        // SideMenuItem(
+        //   press: () => ref.read(ScreenProvider.notifier).state = MenuItems.drug,
+        //   title: "Drugs",
+        //   icon: MenuItems.drug.icon,
+        //   isActive: ref.watch(ScreenProvider) == MenuItems.drug,
+        //   itemCount: 3,
+        // ),
+        // SideMenuItem(
+        //   press: () {
+        //     ref.read(ScreenProvider.notifier).state = MenuItems.orders;
+        //   },
+        //   title: "Orders",
+        //   icon: MenuItems.orders.icon,
+        //   isActive: ref.watch(ScreenProvider) == MenuItems.orders,
+        //   itemCount: 0,
+        // ),
+        // SideMenuItem(
+        //   press: () =>
+        //       ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
+        //   title: "Prescriptions",
+        //   icon: MenuItems.prescrip.icon,
+        //   isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
+        //   itemCount: 0,
+        // ),
+        // SideMenuItem(
+        //   press: () =>
+        //       ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
+        //   title: "Transfer Drug",
+        //   icon: MenuItems.transfer.icon,
+        //   isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
+        //   itemCount: 0,
+        // ),
+        ...MenuItems.all.map(groupMenu).toList(),
         if (!Responsive.isTablet(context)) const Spacer(),
         SideMenuItem(
           press: () {
@@ -197,6 +199,18 @@ class SideMenu extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget groupMenu(MenuItemDra item) {
+    return Consumer(
+      builder: (context, ref, child) => SideMenuItem(
+        press: () => ref.read(ScreenProvider.notifier).state = item,
+        title: item.title,
+        icon: item.icon,
+        isActive: ref.watch(ScreenProvider) == item,
+        itemCount: 0,
+      ),
     );
   }
 
