@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hci_manager/screen/drug/drug_panel.dart';
+import 'package:hci_manager/screen/drug/components/drug_panel.dart';
 import 'package:hci_manager/screen/drug/drug_view.dart';
 import 'package:hci_manager/screen/lockscreen/lockscreen.dart';
 import '../addons/breakpoint.dart';
 import '../provider/general_provider.dart';
 import '../provider/global_method.dart';
 import '../provider/icon_provider.dart';
-import '../responsive_layout.dart';
-import '../screen/drug/add_drug.dart';
+import '../addons/responsive_layout.dart';
+import '../screen/drug/components/add_drug.dart';
 import 'side_menu_item.dart';
 
 class MenuItemDra {

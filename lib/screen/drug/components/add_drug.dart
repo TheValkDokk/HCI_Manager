@@ -6,10 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hci_manager/screen/drug/drug_view.dart';
 import 'package:string_validator/string_validator.dart';
 
-import '../../addons/breakpoint.dart';
-import '../../models/drug.dart';
-import '../../provider/global_method.dart';
-import '../../responsive_layout.dart';
+import '../../../addons/breakpoint.dart';
+import '../../../models/drug.dart';
+import '../../../provider/global_method.dart';
+import '../../../addons/responsive_layout.dart';
 import 'drug_panel.dart';
 
 final isOpenAddDrugProvider = StateProvider((_) => true);

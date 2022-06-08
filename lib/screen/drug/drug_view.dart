@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hci_manager/models/drug.dart';
 
 import '../../components/side_menu.dart';
-import '../../responsive_layout.dart';
-import 'add_drug.dart';
-import 'drug_panel.dart';
+import '../../addons/responsive_layout.dart';
+import 'components/add_drug.dart';
+import 'components/drug_panel.dart';
 
 final DrawerKeyProvider = StateProvider((_) => GlobalKey<ScaffoldState>());
 
@@ -100,9 +100,7 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
               return const DrugPanel();
             }
             if (Responsive.isMobile(context)) {}
-            return const Expanded(
-              child: DrugPanel(),
-            );
+            return const DrugPanel();
           },
         ),
       ),

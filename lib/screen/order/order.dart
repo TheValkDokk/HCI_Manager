@@ -1,7 +1,7 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:hci_manager/components/side_menu.dart';
 
-import '../../responsive_layout.dart';
+import '../../addons/responsive_layout.dart';
 
 class OrderViewScreen extends StatefulWidget {
   const OrderViewScreen({Key? key}) : super(key: key);

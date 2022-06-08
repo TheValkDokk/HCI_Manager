@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hci_manager/responsive_layout.dart';
+import 'package:hci_manager/addons/responsive_layout.dart';
 import 'package:hci_manager/screen/drug/drug_view.dart';
 
 import '../../models/drug.dart';
-import '../drug/drug_panel.dart';
+import '../drug/components/drug_panel.dart';
 
 class DrugTile extends ConsumerStatefulWidget {
   const DrugTile(this.drug);

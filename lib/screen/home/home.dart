@@ -2,7 +2,7 @@ import 'package:concentric_transition/page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hci_manager/components/side_menu.dart';
-import 'package:hci_manager/responsive_layout.dart';
+import 'package:hci_manager/addons/responsive_layout.dart';
 import 'package:hci_manager/screen/drug/drug_view.dart';
 import 'package:hci_manager/screen/prescription/prescription.dart';
 import 'package:local_session_timeout/local_session_timeout.dart';

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hci_manager/responsive_layout.dart';
+import 'package:hci_manager/addons/responsive_layout.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 class LockScreen extends StatefulWidget {

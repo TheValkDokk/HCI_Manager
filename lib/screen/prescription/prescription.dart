@@ -1,7 +1,7 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import '../../components/side_menu.dart';
-import '../../responsive_layout.dart';
+import '../../addons/responsive_layout.dart';
 
 class PrescriptionViewScreen extends StatefulWidget {
   const PrescriptionViewScreen({Key? key}) : super(key: key);
