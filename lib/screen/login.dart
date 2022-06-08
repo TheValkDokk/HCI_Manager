@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../main.dart';
 import '../provider/general_provider.dart';
+import '../provider/global_method.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -71,6 +72,7 @@ class LoginScreen extends ConsumerWidget {
           ),
         );
         user = userCredential.user;
+        saveUser();
         navKey.currentState!.popUntil((route) => route.isFirst);
       } catch (e) {
         print(e);
@@ -102,6 +104,7 @@ class LoginScreen extends ConsumerWidget {
           ),
         );
         await FirebaseAuth.instance.signInWithCredential(credential);
+        saveUser();
         navKey.currentState!.popUntil((route) => route.isFirst);
       } on FirebaseAuthException catch (e) {
         print(e);
