@@ -38,8 +38,8 @@ saveUser() async {
   String phone = '';
   String role = 'USER';
   final db = FirebaseFirestore.instance;
+  final fUser = FirebaseAuth.instance.currentUser!;
   try {
-    final fUser = FirebaseAuth.instance.currentUser!;
     await db
         .collection('users')
         .where('mail', isEqualTo: fUser.email)
@@ -49,19 +49,19 @@ saveUser() async {
       phone = value.docs.first.data()['phone'];
       role = value.docs.first.data()['role'];
     });
-    PharmacyUser user = PharmacyUser(
-        mail: fUser.email,
-        name: fUser.displayName,
-        imgUrl: fUser.photoURL,
-        role: role == 'USER' ? 'USER' : role,
-        phone: phone == '' ? '' : phone,
-        addr: addr == '' ? '' : addr);
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.mail)
-        .set(user.toMap());
-    logging('Logging in', user);
   } catch (e) {}
+  PharmacyUser user = PharmacyUser(
+      mail: fUser.email,
+      name: fUser.displayName,
+      imgUrl: fUser.photoURL,
+      role: role == 'USER' ? 'USER' : role,
+      phone: phone == '' ? '' : phone,
+      addr: addr == '' ? '' : addr);
+  FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.mail)
+      .set(user.toMap());
+  logging('Logging in', user);
 }
 
 Future logging(String text, PharmacyUser u) async {
