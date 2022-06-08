@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class pharmacyUser {
+class PharmacyUser {
   String? mail;
   String? name;
   String? imgUrl;
   String? addr;
   String? role;
   String? phone;
-  pharmacyUser({
+  PharmacyUser({
     this.mail,
     this.name,
     this.imgUrl,
@@ -17,7 +17,7 @@ class pharmacyUser {
     this.phone,
   });
 
-  pharmacyUser copyWith({
+  PharmacyUser copyWith({
     String? mail,
     String? name,
     String? imgUrl,
@@ -25,7 +25,7 @@ class pharmacyUser {
     String? role,
     String? phone,
   }) {
-    return pharmacyUser(
+    return PharmacyUser(
       mail: mail ?? this.mail,
       name: name ?? this.name,
       imgUrl: imgUrl ?? this.imgUrl,
@@ -46,8 +46,8 @@ class pharmacyUser {
     };
   }
 
-  factory pharmacyUser.fromMap(Map<String, dynamic> map) {
-    return pharmacyUser(
+  factory PharmacyUser.fromMap(Map<String, dynamic> map) {
+    return PharmacyUser(
       mail: map['mail'] != null ? map['mail'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
       imgUrl: map['imgUrl'] != null ? map['imgUrl'] as String : null,
@@ -59,8 +59,8 @@ class pharmacyUser {
 
   String toJson() => json.encode(toMap());
 
-  factory pharmacyUser.fromJson(String source) =>
-      pharmacyUser.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PharmacyUser.fromJson(String source) =>
+      PharmacyUser.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -71,7 +71,7 @@ class pharmacyUser {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is pharmacyUser &&
+    return other is PharmacyUser &&
         other.mail == mail &&
         other.name == name &&
         other.imgUrl == imgUrl &&
@@ -92,4 +92,4 @@ class pharmacyUser {
 }
 
 final dummyUser =
-    pharmacyUser(mail: '', name: '', imgUrl: '', role: '', phone: '', addr: '');
+    PharmacyUser(mail: '', name: '', imgUrl: '', role: '', phone: '', addr: '');

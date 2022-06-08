@@ -36,7 +36,7 @@ class LoginScreen extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  signInWithGoogle(context, gg);
+                  signInWithGoogle(context, gg, ref);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
@@ -56,9 +56,11 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Future signInWithGoogle(BuildContext context, GoogleSignIn gg) async {
+  Future signInWithGoogle(
+      BuildContext context, GoogleSignIn gg, WidgetRef ref) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
@@ -71,12 +73,10 @@ class LoginScreen extends ConsumerWidget {
             child: CircularProgressIndicator(),
           ),
         );
-        user = userCredential.user;
+        user = userCredential.user!;
         saveUser();
         navKey.currentState!.popUntil((route) => route.isFirst);
-      } catch (e) {
-        print(e);
-      }
+      } catch (e) {}
     } else {
       try {
         final ggSignIn = gg;
