@@ -9,6 +9,7 @@ import '../models/drug.dart';
 
 void logout(WidgetRef ref) {
   FirebaseAuth.instance.signOut();
+  ref.read(googleSignInProvider.notifier).state.signOut();
   ref.invalidate(googleSignInProvider);
 }
 

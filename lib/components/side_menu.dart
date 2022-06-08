@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hci_manager/screen/drug/components/drug_panel.dart';
 import 'package:hci_manager/screen/drug/drug_view.dart';
 import 'package:hci_manager/screen/lockscreen/lockscreen.dart';
@@ -134,7 +135,7 @@ class SideMenu extends StatelessWidget {
         SideMenuItem(
           press: () => ref.read(ScreenProvider.notifier).state = MenuItems.drug,
           title: "Drugs",
-          icon: Icons.carpenter,
+          icon: FontAwesomeIcons.capsules,
           isActive: ref.watch(ScreenProvider) == MenuItems.drug,
           itemCount: 3,
         ),
@@ -143,7 +144,7 @@ class SideMenu extends StatelessWidget {
             ref.read(ScreenProvider.notifier).state = MenuItems.orders;
           },
           title: "Orders",
-          icon: Icons.access_alarms_outlined,
+          icon: FontAwesomeIcons.bagShopping,
           isActive: ref.watch(ScreenProvider) == MenuItems.orders,
           itemCount: 0,
         ),
@@ -151,7 +152,15 @@ class SideMenu extends StatelessWidget {
           press: () =>
               ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
           title: "Prescriptions",
-          icon: Icons.account_box,
+          icon: FontAwesomeIcons.prescriptionBottle,
+          isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
+          itemCount: 0,
+        ),
+        SideMenuItem(
+          press: () =>
+              ref.read(ScreenProvider.notifier).state = MenuItems.prescrip,
+          title: "Transfer Drug",
+          icon: FontAwesomeIcons.arrowRightArrowLeft,
           isActive: ref.watch(ScreenProvider) == MenuItems.prescrip,
           itemCount: 0,
         ),
