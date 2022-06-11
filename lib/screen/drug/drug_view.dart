@@ -84,12 +84,55 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
           builder: (context, dimen) {
             if (Responsive.isDesktop(context)) {
               return Row(
-                children: const [
+                children: [
                   Expanded(
                     flex: 3,
-                    child: DrugPanel(),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            SortDateBox(),
+                            SortBox(),
+                          ],
+                        ),
+                        const Expanded(child: DrugPanel()),
+                        SizedBox(
+                          width: 100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                ),
+                                child: const Text(
+                                  '1',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                              const Text(
+                                '2',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              const Text(
+                                '3',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              const Text(
+                                '4',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        )
+                      ],
+                    ),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 0,
                     child: AddDrug(),
                   ),
@@ -104,6 +147,94 @@ class _DrugViewScreenState extends ConsumerState<DrugViewScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class SortDateBox extends StatelessWidget {
+  const SortDateBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text(
+          'Sort by Date:   ',
+          style: TextStyle(color: Colors.black),
+        ),
+        Container(
+          width: 200,
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all()),
+          child: DropdownButton(
+            dropdownColor: Colors.white,
+            isExpanded: true,
+            style: const TextStyle(color: Colors.black),
+            hint: const Text(
+              'Sort',
+              style: TextStyle(color: Colors.black),
+            ),
+            onChanged: (v) {},
+            items: const [
+              DropdownMenuItem(
+                value: 'up',
+                child: Text('Ascending'),
+              ),
+              DropdownMenuItem(
+                value: 'down',
+                child: Text('Descending '),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SortBox extends StatelessWidget {
+  const SortBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text(
+          'Sort by Name:   ',
+          style: TextStyle(color: Colors.black),
+        ),
+        Container(
+          width: 200,
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          decoration: BoxDecoration(
+              color: Colors.white54,
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all()),
+          child: DropdownButton(
+            dropdownColor: Colors.white,
+            isExpanded: true,
+            style: const TextStyle(color: Colors.black),
+            hint: const Text(
+              'Sort',
+              style: TextStyle(color: Colors.black),
+            ),
+            onChanged: (v) {},
+            items: const [
+              DropdownMenuItem(
+                value: 'up',
+                child: Text('Ascending'),
+              ),
+              DropdownMenuItem(
+                value: 'down',
+                child: Text('Descending'),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

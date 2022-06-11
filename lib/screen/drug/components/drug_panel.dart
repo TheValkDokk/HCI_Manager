@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:hci_manager/addons/responsive_layout.dart';
 import 'package:hci_manager/screen/drug/components/add_drug.dart';
-import 'package:hci_manager/screen/order/drug_tile.dart';
+import 'package:hci_manager/screen/drug/components/drug_tile.dart';
 
 import '../../../models/drug.dart';
 
@@ -48,7 +48,7 @@ class DrugPanel extends StatelessWidget {
                     crossAxisCount: crossAxi,
                     childAspectRatio: childAspect,
                   ),
-                  children: snapshot.data!.docs.map((e) {
+                  children: snapshot.data!.docs.sublist(0, 10).map((e) {
                     return AnimationConfiguration.staggeredList(
                       position: count++,
                       duration: const Duration(milliseconds: 500),
