@@ -12,7 +12,7 @@ class OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int d = Random().nextInt(10);
+    int d = Random().nextInt(10) + 1;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
